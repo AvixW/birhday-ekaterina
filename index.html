@@ -266,4 +266,15 @@ async function toggleMusic(){
     if(musicPlaying){
       musicStep(); musicTimer=setInterval(musicStep,720);
       musicBtn.classList.add('playing'); musicBtn.textContent='Ⅱ'; musicBtn.setAttribute('aria-label','Выключить музыку');
-      showToast('Музыка вк
+      showToast('Музыка включена');
+    }else{
+      clearInterval(musicTimer); musicBtn.classList.remove('playing'); musicBtn.textContent='♫'; musicBtn.setAttribute('aria-label','Включить музыку');
+      showToast('Музыка выключена');
+    }
+  }catch(e){showToast('Не удалось включить звук в этом браузере.');}
+}
+musicBtn.addEventListener('click',toggleMusic);
+
+</script>
+</body>
+</html>
