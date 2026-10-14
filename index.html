@@ -80,6 +80,7 @@ h2{font-size:clamp(2.3rem,7vw,4.4rem);font-weight:400;color:var(--gold2);margin:
 .rsvp-actions{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:20px}
 .gold-btn{min-width:175px}
 .gold-btn.secondary{background:transparent;border-color:rgba(216,184,121,.4);color:var(--cream)}
+.gold-btn.selected{background:linear-gradient(135deg,#9b6b36,#5a1028);box-shadow:0 0 0 2px rgba(216,184,121,.18);color:#fff4d8}
 footer{text-align:center;padding:20px 20px 50px;color:#8d7777;font: .68rem Arial,sans-serif;letter-spacing:.1em}
 .music-btn{position:fixed;right:18px;bottom:18px;z-index:8;border:1px solid rgba(216,184,121,.65);background:rgba(20,6,12,.9);color:var(--gold2);width:48px;height:48px;border-radius:50%;cursor:pointer;display:none;box-shadow:0 6px 24px #0006}
 .music-btn.on{display:block}
@@ -132,7 +133,7 @@ footer{text-align:center;padding:20px 20px 50px;color:#8d7777;font: .68rem Arial
     <h2>Буду вас ждать</h2>
     <div class="details">
       <div class="detail"><div class="icon">✧</div><h3>Место встречи</h3><p>г. Новосибирск,<br>ул. Сестрорецкая, д. 16</p></div>
-      <div class="detail"><div class="icon">❦</div><h3>Дресс-код</h3><p>По желанию — элегантные образы в чёрном, бордовом или с золотыми акцентами. Главное — ваш комфорт.</p></div>
+      <div class="detail"><div class="icon">❦</div><h3>Дресс-код</h3><p>Не забудьте взять купальные вещи! Цвет и стиль — на ваш выбор.</p></div>
     </div>
     <div class="ornament">— ✦ —</div>
     <div class="kicker">План вечера</div>
@@ -150,9 +151,11 @@ footer{text-align:center;padding:20px 20px 50px;color:#8d7777;font: .68rem Arial
     <div class="rsvp-box">
       <p>Подтвердите участие, чтобы вечер получился ещё уютнее.</p>
       <div class="rsvp-actions">
-        <button class="gold-btn" id="yesBtn">С радостью буду</button>
-        <button class="gold-btn secondary" id="maybeBtn">Пока не уверен(а)</button>
+        <button class="gold-btn" id="yesBtn" type="button">С радостью буду</button>
+        <button class="gold-btn secondary" id="maybeBtn" type="button">Пока не уверен(а)</button>
       </div>
+      <p id="rsvpStatus" role="status" aria-live="polite" style="display:none;margin:22px 0 0;color:var(--gold2);"></p>
+      <button class="gold-btn secondary" id="copyRsvpBtn" type="button" style="display:none;margin:14px auto 0;">Скопировать ответ</button>
     </div>
     <div class="ornament">✦</div>
     <p class="intro">С нетерпением жду встречи!<br><span class="name-script">Екатерина</span></p>
@@ -175,7 +178,7 @@ const INVITATION = {
   date: "30 ноября",
   time: "19:00",
   address: "г. Новосибирск, ул. Сестрорецкая, д. 16",
-  rsvpPhone: "" // Необязательно: номер телефона в международном формате, например 79990000000
+  rsvpPhone: "ВСТАВЬТЕ_НОМЕР" // Номер WhatsApp Екатерины: только цифры с кодом страны, например 79990000000
 };
 
 const cover = document.getElementById('cover');
@@ -262,19 +265,36 @@ async function toggleMusic(){
 }
 musicBtn.addEventListener('click',toggleMusic);
 
-function rsvp(status){
-  const message = `Привет, Екатерина! ${status}\nПоздравляю с днём рождения!`;
-  if(INVITATION.rsvpPhone){
-    const url = `https://wa.me/${INVITATION.rsvpPhone}?text=${encodeURIComponent(message)}`;
+let selectedRsvpMessage = '';
+function rsvp(status, buttonId){
+  selectedRsvpMessage = `Привет, ${INVITATION.name}! ${status}\nПоздравляю с днём рождения!`;
+  const statusEl = document.getElementById('rsvpStatus');
+  const copyBtn = document.getElementById('copyRsvpBtn');
+  statusEl.textContent = status;
+  statusEl.style.display = 'block';
+  copyBtn.style.display = 'inline-block';
+  document.getElementById('yesBtn').classList.toggle('selected', buttonId === 'yesBtn');
+  document.getElementById('maybeBtn').classList.toggle('selected', buttonId === 'maybeBtn');
+
+  const phone = (INVITATION.rsvpPhone || '').replace(/\D/g, '');
+  if(phone && phone !== 'ВСТАВЬТЕНОМЕР'){
+    const url = `https://wa.me/${phone}?text=${encodeURIComponent(selectedRsvpMessage)}`;
     window.open(url,'_blank','noopener');
-  }else if(navigator.share){
-    navigator.share({title:`День рождения ${INVITATION.name}`,text:message}).catch(()=>showToast(message));
-  }else if(navigator.clipboard){
-    navigator.clipboard.writeText(message).then(()=>showToast('Текст ответа скопирован — отправьте его Екатерине!')).catch(()=>showToast(message));
-  }else showToast(message);
+  } else {
+    showToast('Чтобы открывался WhatsApp, укажите номер Екатерины в настройках INVITATION внизу файла index.html.');
+  }
 }
-document.getElementById('yesBtn').addEventListener('click',()=>rsvp('С радостью буду на празднике 30 ноября в 19:00!'));
-document.getElementById('maybeBtn').addEventListener('click',()=>rsvp('Пока не могу точно подтвердить участие. Скоро сообщу!'));
+document.getElementById('yesBtn').addEventListener('click',()=>rsvp('С радостью буду на празднике 30 ноября в 19:00!', 'yesBtn'));
+document.getElementById('maybeBtn').addEventListener('click',()=>rsvp('Пока не могу точно подтвердить участие. Скоро сообщу!', 'maybeBtn'));
+document.getElementById('copyRsvpBtn').addEventListener('click', async ()=>{
+  if(!selectedRsvpMessage) return;
+  try{
+    await navigator.clipboard.writeText(selectedRsvpMessage);
+    showToast('Ответ скопирован! Теперь вставьте его в сообщение Екатерине.');
+  }catch(e){
+    showToast(selectedRsvpMessage);
+  }
+});
 </script>
 </body>
 </html>
