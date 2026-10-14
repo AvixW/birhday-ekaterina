@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#16080d">
+<meta name="description" content="Приглашение на день рождения Екатерины — 30 ноября в 19:00">
+<title>Приглашение для Екатерины · 40</title>
+<style>
+:root{
+  --bg:#10070a; --panel:#1a0b11; --wine:#5a1028; --wine2:#7e1939;
+  --gold:#d8b879; --gold2:#f0dca8; --cream:#f8eedc; --muted:#c7b8ac;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; color:var(--cream); background:
+  radial-gradient(ellipse at 50% 0%, rgba(104,21,49,.42), transparent 55%),
+  radial-gradient(ellipse at 0% 100%, rgba(89,34,45,.18), transparent 45%),var(--bg);
+  font-family:Georgia,"Times New Roman",serif; min-height:100vh; overflow-x:hidden;
+}
+button{font:inherit}
+.grain{position:fixed;inset:0;pointer-events:none;opacity:.08;z-index:5;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.32'/%3E%3C/svg%3E")}
+.cover{min-height:100svh;display:grid;place-items:center;padding:28px 18px;position:relative;isolation:isolate}
+.cover:before,.cover:after{content:"";position:absolute;inset:18px;border:1px solid rgba(216,184,121,.35);pointer-events:none}
+.cover:after{inset:25px;border-color:rgba(216,184,121,.12)}
+.corner{position:absolute;width:50px;height:50px;border-color:var(--gold);opacity:.7}
+.c1{top:30px;left:30px;border-top:1px solid;border-left:1px solid}.c2{top:30px;right:30px;border-top:1px solid;border-right:1px solid}.c3{bottom:30px;left:30px;border-bottom:1px solid;border-left:1px solid}.c4{bottom:30px;right:30px;border-bottom:1px solid;border-right:1px solid}
+.cover-inner{text-align:center;width:min(100%,540px);position:relative;z-index:1}
+.eyebrow{font-family:Arial,sans-serif;text-transform:uppercase;letter-spacing:.34em;font-size:.68rem;color:var(--gold);margin:0 0 22px}
+.cover h1{font-size:clamp(2.8rem,10vw,5.8rem);font-weight:400;line-height:.95;margin:0;color:var(--gold2);text-shadow:0 8px 35px #000}
+.cover h1 em{display:block;font-size:.36em;letter-spacing:.27em;font-style:normal;text-transform:uppercase;margin-top:20px;color:var(--cream)}
+.rule{display:flex;align-items:center;justify-content:center;gap:12px;color:var(--gold);margin:25px 0}
+.rule:before,.rule:after{content:"";width:60px;height:1px;background:linear-gradient(90deg,transparent,var(--gold))}
+.rule:after{transform:rotate(180deg)}
+.envelope-wrap{height:225px;display:grid;place-items:center;margin:2px auto 12px;perspective:900px;cursor:pointer;max-width:360px}
+.envelope{width:min(78vw,310px);height:190px;position:relative;filter:drop-shadow(0 18px 26px rgba(0,0,0,.48));transition:transform .7s}
+.envelope:hover{transform:translateY(-5px)}
+.env-back{position:absolute;inset:0;background:linear-gradient(135deg,#65142d,#2b0914);border:1px solid #a56a4b}
+.letter{position:absolute;left:9%;right:9%;top:8%;height:78%;background:linear-gradient(135deg,#f4e5c9,#d8c39b);color:#4b1825;text-align:center;padding:18px 8px;transition:transform 1s cubic-bezier(.2,.75,.2,1);z-index:1}
+.letter small{display:block;letter-spacing:.2em;text-transform:uppercase;font-size:.55rem;margin-bottom:8px}
+.letter strong{font-size:1.6rem;font-weight:400}
+.letter span{display:block;font-size:.75rem;margin-top:8px}
+.env-front{position:absolute;inset:0;background:linear-gradient(150deg,#721832,#3a0b1b);clip-path:polygon(0 0,50% 57%,100% 0,100% 100%,0 100%);z-index:3;border-bottom:1px solid #a56a4b}
+.env-flap{position:absolute;inset:0;background:linear-gradient(145deg,#8a2141,#4a0b20);clip-path:polygon(0 0,100% 0,50% 59%);transform-origin:top;transition:transform .8s ease;z-index:4;filter:brightness(.94)}
+.seal{position:absolute;z-index:5;top:46%;left:50%;transform:translate(-50%,-50%);width:57px;height:57px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 35% 28%,#f0d69a,#a8793e 70%,#68401f);color:#4a1422;border:1px solid #f0d69a;box-shadow:0 3px 12px #1b050c;font-size:1.35rem;transition:opacity .35s,transform .4s}
+.opened .env-flap{transform:rotateX(180deg);z-index:0}
+.opened .letter{transform:translateY(-105px);z-index:2}
+.opened .seal{opacity:0;transform:translate(-50%,-50%) scale(.5)}
+.opened .env-front{z-index:3}
+.open-btn,.gold-btn{border:1px solid var(--gold);color:var(--gold2);background:linear-gradient(135deg,rgba(126,25,57,.45),rgba(35,8,17,.7));padding:14px 24px;letter-spacing:.16em;text-transform:uppercase;font-family:Arial,sans-serif;font-size:.68rem;cursor:pointer;transition:background .25s,transform .25s}
+.open-btn:hover,.gold-btn:hover{background:rgba(126,25,57,.65);transform:translateY(-2px)}
+.hint{color:var(--muted);font: .72rem Arial,sans-serif;letter-spacing:.08em;margin-top:14px}
+main{display:none;opacity:0;transition:opacity 1s ease}
+main.visible{display:block;animation:fadeIn 1.1s forwards}
+@keyframes fadeIn{to{opacity:1}}
+.section{padding:90px 20px;max-width:920px;margin:auto;text-align:center}
+.kicker{font: .68rem Arial,sans-serif;text-transform:uppercase;letter-spacing:.32em;color:var(--gold);margin-bottom:18px}
+h2{font-size:clamp(2.3rem,7vw,4.4rem);font-weight:400;color:var(--gold2);margin:0 0 22px;line-height:1.02}
+.intro{font-size:1.12rem;line-height:1.85;color:#e8d9c7;max-width:620px;margin:0 auto}
+.name-script{font-style:italic;color:var(--gold2)}
+.age{display:inline-flex;align-items:center;justify-content:center;width:118px;height:118px;border:1px solid var(--gold);border-radius:50%;color:var(--gold2);font-size:3.4rem;margin:32px 0 8px;position:relative}
+.age:after{content:"";position:absolute;inset:7px;border:1px solid rgba(216,184,121,.35);border-radius:50%}
+.date-card{margin:38px auto 0;max-width:620px;padding:30px 20px;border-top:1px solid rgba(216,184,121,.55);border-bottom:1px solid rgba(216,184,121,.55);display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.date-part strong{display:block;font-size:1.7rem;font-weight:400;color:var(--gold2);margin-bottom:8px}
+.date-part span{font: .65rem Arial,sans-serif;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+.ornament{color:var(--gold);font-size:1.4rem;margin:26px 0}
+.details{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;text-align:left;margin:35px 0}
+.detail{padding:25px;background:linear-gradient(145deg,rgba(89,16,40,.32),rgba(255,255,255,.015));border:1px solid rgba(216,184,121,.2)}
+.detail .icon{font-size:1.25rem;color:var(--gold);margin-bottom:15px}
+.detail h3{font-size:1.15rem;font-weight:400;color:var(--gold2);margin:0 0 10px}
+.detail p{font: .9rem/1.7 Arial,sans-serif;color:var(--muted);margin:0;overflow-wrap:anywhere}
+.timeline{max-width:560px;margin:32px auto 0;text-align:left}
+.timeline-row{display:grid;grid-template-columns:80px 1fr;gap:20px;padding:18px 0;border-bottom:1px solid rgba(216,184,121,.17)}
+.timeline-row time{color:var(--gold);font-size:1.1rem}
+.timeline-row span{color:#e6d9c9;font-size:1rem}
+.rsvp{background:linear-gradient(180deg,transparent,rgba(77,13,34,.26),transparent)}
+.rsvp-box{max-width:560px;margin:30px auto 0;border:1px solid rgba(216,184,121,.4);padding:30px 24px}
+.rsvp-box p{color:var(--muted);line-height:1.7}
+.rsvp-actions{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:20px}
+.gold-btn{min-width:175px}
+.gold-btn.secondary{background:transparent;border-color:rgba(216,184,121,.4);color:var(--cream)}
+footer{text-align:center;padding:20px 20px 50px;color:#8d7777;font: .68rem Arial,sans-serif;letter-spacing:.1em}
+.music-btn{position:fixed;right:18px;bottom:18px;z-index:8;border:1px solid rgba(216,184,121,.65);background:rgba(20,6,12,.9);color:var(--gold2);width:48px;height:48px;border-radius:50%;cursor:pointer;display:none;box-shadow:0 6px 24px #0006}
+.music-btn.on{display:block}
+.music-btn.playing{animation:pulse 2s infinite}
+@keyframes pulse{50%{box-shadow:0 0 0 7px rgba(216,184,121,.1),0 6px 24px #0006}}
+.toast{position:fixed;left:50%;bottom:80px;transform:translateX(-50%);background:#2a1019;border:1px solid var(--gold);color:var(--cream);padding:12px 18px;font: .85rem Arial,sans-serif;display:none;z-index:10;max-width:90%;text-align:center}
+@media(max-width:560px){
+ .cover:before{inset:10px}.cover:after{inset:16px}.corner{width:28px;height:28px}.c1,.c2{top:21px}.c3,.c4{bottom:21px}.c1,.c3{left:21px}.c2,.c4{right:21px}
+ .eyebrow{letter-spacing:.22em;font-size:.58rem}.envelope-wrap{height:205px}.envelope{height:170px}.section{padding:66px 22px}.date-card{padding:24px 8px;gap:8px}.date-part strong{font-size:1.4rem}.details{grid-template-columns:1fr}.detail{padding:22px}.rsvp-box{padding:26px 18px}.timeline-row{grid-template-columns:66px 1fr;gap:12px}
+}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div class="grain" aria-hidden="true"></div>
+<section class="cover" id="cover" aria-label="Обложка приглашения">
+  <span class="corner c1"></span><span class="corner c2"></span><span class="corner c3"></span><span class="corner c4"></span>
+  <div class="cover-inner">
+    <p class="eyebrow">Особенный вечер · 30 ноября</p>
+    <h1>Екатерина<em>приглашает вас</em></h1>
+    <div class="rule">✦</div>
+    <div class="envelope-wrap" id="envelopeWrap" role="button" tabindex="0" aria-label="Открыть приглашение">
+      <div class="envelope" id="envelope">
+        <div class="env-back"></div>
+        <div class="letter"><small>С любовью и теплом</small><strong>Вы приглашены</strong><span>на мой особенный день</span></div>
+        <div class="env-flap"></div><div class="env-front"></div><div class="seal">Е</div>
+      </div>
+    </div>
+    <button class="open-btn" id="openBtn">Открыть приглашение</button>
+    <p class="hint">Нажмите на конверт, чтобы открыть</p>
+  </div>
+</section>
+
+<main id="invitation">
+  <section class="section">
+    <div class="kicker">Приглашение на праздник</div>
+    <h2>Давайте разделим<br>этот вечер <span class="name-script">вместе</span></h2>
+    <p class="intro">Есть поводы, которые становятся особенными благодаря людям рядом. Буду счастлива провести этот день с вами — за красивыми разговорами, улыбками и тёплыми воспоминаниями.</p>
+    <div class="age">40</div>
+    <div class="kicker">новая глава · новые впечатления</div>
+    <div class="ornament">✦ &nbsp; ❧ &nbsp; ✦</div>
+    <div class="date-card">
+      <div class="date-part"><strong>30 ноября</strong><span>Дата встречи</span></div>
+      <div class="date-part"><strong>19:00</strong><span>Начало вечера</span></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="kicker">Сохраните дату</div>
+    <h2>Буду вас ждать</h2>
+    <div class="details">
+      <div class="detail"><div class="icon">✧</div><h3>Место встречи</h3><p>г. Новосибирск,<br>ул. Сестрорецкая, д. 16</p></div>
+      <div class="detail"><div class="icon">❦</div><h3>Дресс-код</h3><p>По желанию — элегантные образы в чёрном, бордовом или с золотыми акцентами. Главное — ваш комфорт.</p></div>
+    </div>
+    <div class="ornament">— ✦ —</div>
+    <div class="kicker">План вечера</div>
+    <div class="timeline">
+      <div class="timeline-row"><time>19:00</time><span>Встречаемся и говорим первые тосты</span></div>
+      <div class="timeline-row"><time>19:30</time><span>Угощения, разговоры и красивые моменты</span></div>
+      <div class="timeline-row"><time>Дальше</time><span>Празднуем, смеёмся и создаём воспоминания</span></div>
+    </div>
+  </section>
+
+  <section class="section rsvp">
+    <div class="kicker">Пожалуйста, дайте знать</div>
+    <h2>Вы придёте?</h2>
+    <p class="intro">Буду очень рада видеть вас на празднике. Нажмите на подходящий вариант — откроется сообщение, которое можно отправить имениннице.</p>
+    <div class="rsvp-box">
+      <p>Подтвердите участие, чтобы вечер получился ещё уютнее.</p>
+      <div class="rsvp-actions">
+        <button class="gold-btn" id="yesBtn">С радостью буду</button>
+        <button class="gold-btn secondary" id="maybeBtn">Пока не уверен(а)</button>
+      </div>
+    </div>
+    <div class="ornament">✦</div>
+    <p class="intro">С нетерпением жду встречи!<br><span class="name-script">Екатерина</span></p>
+  </section>
+  <footer>СДЕЛАНО С ТЕПЛОМ · ЕКАТЕРИНА · 40</footer>
+</main>
+
+<button class="music-btn" id="musicBtn" aria-label="Включить музыку" title="Музыка">♫</button>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+/*
+  НАСТРОЙКА ПРИГЛАШЕНИЯ
+  Измените значения ниже, если нужно обновить имя, возраст, дату или адрес.
+  Музыка создаётся браузером синтезатором, поэтому отдельный аудиофайл не нужен.
+*/
+const INVITATION = {
+  name: "Екатерина",
+  age: 40,
+  date: "30 ноября",
+  time: "19:00",
+  address: "г. Новосибирск, ул. Сестрорецкая, д. 16",
+  rsvpPhone: "" // Необязательно: номер телефона в международном формате, например 79990000000
+};
+
+const cover = document.getElementById('cover');
+const envelope = document.getElementById('envelope');
+const openBtn = document.getElementById('openBtn');
+const wrap = document.getElementById('envelopeWrap');
+const main = document.getElementById('invitation');
+const musicBtn = document.getElementById('musicBtn');
+const toast = document.getElementById('toast');
+let opened = false, audioCtx = null, musicTimer = null, musicPlaying = false, noteIndex = 0;
+
+// Apply editable config to page copy.
+document.title = `Приглашение для ${INVITATION.name} · ${INVITATION.age}`;
+document.querySelector('.cover h1').innerHTML = `${INVITATION.name}<em>приглашает вас</em>`;
+document.querySelector('.eyebrow').textContent = `Особенный вечер · ${INVITATION.date}`;
+document.querySelector('.letter strong').textContent = 'Вы приглашены';
+document.querySelector('.age').textContent = INVITATION.age;
+document.querySelectorAll('.date-part strong')[0].textContent = INVITATION.date;
+document.querySelectorAll('.date-part strong')[1].textContent = INVITATION.time;
+document.querySelector('.detail p').innerHTML = INVITATION.address.replace(', ', ',<br>');
+
+function openInvitation(){
+  if(opened) return;
+  opened = true;
+  envelope.classList.add('opened');
+  wrap.classList.add('opened');
+  openBtn.textContent = 'Приглашение открыто';
+  openBtn.disabled = true;
+  setTimeout(() => {
+    cover.style.transition = 'opacity .8s ease, transform .8s ease';
+    cover.style.opacity = '0';
+    cover.style.transform = 'translateY(-18px)';
+    setTimeout(() => {
+      cover.style.display = 'none';
+      main.classList.add('visible');
+      musicBtn.classList.add('on');
+      window.scrollTo({top:0,behavior:'smooth'});
+    }, 820);
+  }, 900);
+}
+openBtn.addEventListener('click', openInvitation);
+wrap.addEventListener('click', openInvitation);
+wrap.addEventListener('keydown', e => {if(e.key === 'Enter' || e.key === ' '){e.preventDefault();openInvitation();}});
+
+function showToast(text){
+  toast.textContent = text; toast.style.display='block';
+  setTimeout(()=>toast.style.display='none',3200);
+}
+
+// Gentle original ambient music, generated locally with Web Audio API.
+const melody = [392,523.25,659.25,523.25,440,587.33,698.46,587.33,392,493.88,587.33,493.88,349.23,440,523.25,440];
+function playNote(freq, start, duration, type='sine', volume=.035){
+  const osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
+  osc.type = type; osc.frequency.setValueAtTime(freq,start);
+  gain.gain.setValueAtTime(0.0001,start);
+  gain.gain.exponentialRampToValueAtTime(volume,start+.08);
+  gain.gain.exponentialRampToValueAtTime(0.0001,start+duration);
+  osc.connect(gain); gain.connect(audioCtx.destination);
+  osc.start(start); osc.stop(start+duration+.03);
+}
+function musicStep(){
+  if(!musicPlaying || !audioCtx) return;
+  const now=audioCtx.currentTime;
+  const f=melody[noteIndex%melody.length];
+  playNote(f,now,1.25,'sine',.026);
+  if(noteIndex%4===0) playNote(f/2,now,.9,'triangle',.018);
+  if(noteIndex%4===2) playNote(f*1.5,now+.12,.65,'sine',.008);
+  noteIndex++;
+}
+async function toggleMusic(){
+  try{
+    if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    if(audioCtx.state==='suspended') await audioCtx.resume();
+    musicPlaying = !musicPlaying;
+    if(musicPlaying){
+      musicStep(); musicTimer=setInterval(musicStep,720);
+      musicBtn.classList.add('playing'); musicBtn.textContent='Ⅱ'; musicBtn.setAttribute('aria-label','Выключить музыку');
+      showToast('Музыка включена');
+    }else{
+      clearInterval(musicTimer); musicBtn.classList.remove('playing'); musicBtn.textContent='♫'; musicBtn.setAttribute('aria-label','Включить музыку');
+      showToast('Музыка выключена');
+    }
+  }catch(e){showToast('Не удалось включить звук в этом браузере.');}
+}
+musicBtn.addEventListener('click',toggleMusic);
+
+function rsvp(status){
+  const message = `Привет, Екатерина! ${status}\nПоздравляю с днём рождения!`;
+  if(INVITATION.rsvpPhone){
+    const url = `https://wa.me/${INVITATION.rsvpPhone}?text=${encodeURIComponent(message)}`;
+    window.open(url,'_blank','noopener');
+  }else if(navigator.share){
+    navigator.share({title:`День рождения ${INVITATION.name}`,text:message}).catch(()=>showToast(message));
+  }else if(navigator.clipboard){
+    navigator.clipboard.writeText(message).then(()=>showToast('Текст ответа скопирован — отправьте его Екатерине!')).catch(()=>showToast(message));
+  }else showToast(message);
+}
+document.getElementById('yesBtn').addEventListener('click',()=>rsvp('С радостью буду на празднике 30 ноября в 19:00!'));
+document.getElementById('maybeBtn').addEventListener('click',()=>rsvp('Пока не могу точно подтвердить участие. Скоро сообщу!'));
+</script>
+</body>
+</html>
