@@ -178,7 +178,7 @@ const INVITATION = {
   date: "30 ноября",
   time: "19:00",
   address: "г. Новосибирск, ул. Сестрорецкая, д. 16",
-  rsvpPhone: "ВСТАВЬТЕ_НОМЕР" // Номер WhatsApp Екатерины: только цифры с кодом страны, например 79990000000
+  rsvpPhone: "79231111306" // Номер WhatsApp Екатерины: только цифры с кодом страны, например 79990000000
 };
 
 const cover = document.getElementById('cover');
@@ -277,7 +277,7 @@ function rsvp(status, buttonId){
   document.getElementById('maybeBtn').classList.toggle('selected', buttonId === 'maybeBtn');
 
   const phone = (INVITATION.rsvpPhone || '').replace(/\D/g, '');
-  if(phone && phone !== 'ВСТАВЬТЕНОМЕР'){
+  if(phone && phone !== '79231111306'){
     const url = `https://wa.me/${phone}?text=${encodeURIComponent(selectedRsvpMessage)}`;
     window.open(url,'_blank','noopener');
   } else {
