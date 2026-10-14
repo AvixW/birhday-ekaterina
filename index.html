@@ -102,14 +102,14 @@ footer{text-align:center;padding:20px 20px 50px;color:#8d7777;font: .68rem Arial
     <p class="eyebrow">Особенный вечер · 29 ноября</p>
     <h1>Екатерина<em>приглашает вас</em></h1>
     <div class="rule">✦</div>
-    <div class="envelope-wrap" id="envelopeWrap" role="button" tabindex="0" aria-label="Открыть приглашение">
+    <div class="envelope-wrap" id="envelopeWrap" role="button" tabindex="0" onclick="openInvitation()" aria-label="Открыть приглашение">
       <div class="envelope" id="envelope">
         <div class="env-back"></div>
         <div class="letter"><small>С любовью и теплом</small><strong>Вы приглашены</strong><span>на мой особенный день</span></div>
         <div class="env-flap"></div><div class="env-front"></div><div class="seal">Е</div>
       </div>
     </div>
-    <button class="open-btn" id="openBtn" type="button">Открыть приглашение</button>
+    <button class="open-btn" id="openBtn" type="button" onclick="openInvitation()">Открыть приглашение</button>
     <p class="hint">Нажмите на конверт, чтобы открыть</p>
   </div>
 </section>
@@ -162,119 +162,29 @@ footer{text-align:center;padding:20px 20px 50px;color:#8d7777;font: .68rem Arial
 <div class="toast" id="toast" role="status"></div>
 
 <script>
-/*
-  НАСТРОЙКА ПРИГЛАШЕНИЯ
-  Измените значения ниже, если нужно обновить имя, возраст, дату или адрес.
-  Музыка создаётся браузером синтезатором, поэтому отдельный аудиофайл не нужен.
-*/
-const INVITATION = {
-  name: "Екатерина",
-  age: 40,
-  date: "29 ноября",
-  time: "16:00",
-  address: "г. Новосибирск, ул. Сестрорецкая, д. 16",
-  rsvpPhone: "" // Ответы собираются лично, без кнопок WhatsApp или SMS
-};
-
-const cover = document.getElementById('cover');
-const envelope = document.getElementById('envelope');
-const openBtn = document.getElementById('openBtn');
-const wrap = document.getElementById('envelopeWrap');
-const main = document.getElementById('invitation');
-const musicBtn = document.getElementById('musicBtn');
-const toast = document.getElementById('toast');
-let opened = false, audioCtx = null, musicTimer = null, musicPlaying = false, noteIndex = 0;
-
-// Apply editable config to page copy.
-document.title = `Приглашение для ${INVITATION.name} · ${INVITATION.age}`;
-document.querySelector('.cover h1').innerHTML = `${INVITATION.name}<em>приглашает вас</em>`;
-document.querySelector('.eyebrow').textContent = `Особенный вечер · ${INVITATION.date}`;
-document.querySelector('.letter strong').textContent = 'Вы приглашены';
-document.querySelector('.age').textContent = INVITATION.age;
-document.querySelectorAll('.date-part strong')[0].textContent = INVITATION.date;
-document.querySelectorAll('.date-part strong')[1].textContent = INVITATION.time;
-document.querySelector('.detail p').innerHTML = INVITATION.address.replace(', ', ',<br>');
-
-window.openInvitation = function openInvitation(){
-  // Надёжно открыть приглашение без таймеров и анимационных зависимостей.
-  if (opened) return;
-  opened = true;
-  if (envelope) envelope.classList.add('opened');
-  if (wrap) wrap.classList.add('opened');
-  if (openBtn) {
-    openBtn.textContent = 'Приглашение открыто';
-    openBtn.disabled = true;
-  }
+function openInvitation() {
+  var cover = document.getElementById('cover');
+  var invitation = document.getElementById('invitation');
   if (cover) cover.style.display = 'none';
-  if (main) {
-    main.style.display = 'block';
-    main.style.opacity = '1';
-    main.classList.add('visible');
+  if (invitation) {
+    invitation.style.display = 'block';
+    invitation.style.opacity = '1';
+    invitation.classList.add('visible');
   }
-  if (musicBtn) musicBtn.classList.add('on');
   window.scrollTo(0, 0);
-};
-
-// Use one handler for both the envelope and the explicit button.
-if (openBtn) openBtn.addEventListener('click', function (event) {
-  event.preventDefault();
-  window.openInvitation();
-});
-if (wrap) {
-  wrap.addEventListener('click', function (event) {
-    event.preventDefault();
-    window.openInvitation();
-  });
-  wrap.addEventListener('keydown', function (event) {
+}
+var openButton = document.getElementById('openBtn');
+var envelopeWrap = document.getElementById('envelopeWrap');
+if (openButton) openButton.addEventListener('click', openInvitation);
+if (envelopeWrap) {
+  envelopeWrap.addEventListener('click', openInvitation);
+  envelopeWrap.addEventListener('keydown', function(event) {
     if (event.key === 'Enter' || event.key === ' ') {
       event.preventDefault();
-      window.openInvitation();
+      openInvitation();
     }
   });
 }
-
-function showToast(text){
-  toast.textContent = text; toast.style.display='block';
-  setTimeout(()=>toast.style.display='none',3200);
-}
-
-// Gentle original ambient music, generated locally with Web Audio API.
-const melody = [392,523.25,659.25,523.25,440,587.33,698.46,587.33,392,493.88,587.33,493.88,349.23,440,523.25,440];
-function playNote(freq, start, duration, type='sine', volume=.035){
-  const osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
-  osc.type = type; osc.frequency.setValueAtTime(freq,start);
-  gain.gain.setValueAtTime(0.0001,start);
-  gain.gain.exponentialRampToValueAtTime(volume,start+.08);
-  gain.gain.exponentialRampToValueAtTime(0.0001,start+duration);
-  osc.connect(gain); gain.connect(audioCtx.destination);
-  osc.start(start); osc.stop(start+duration+.03);
-}
-function musicStep(){
-  if(!musicPlaying || !audioCtx) return;
-  const now=audioCtx.currentTime;
-  const f=melody[noteIndex%melody.length];
-  playNote(f,now,1.25,'sine',.026);
-  if(noteIndex%4===0) playNote(f/2,now,.9,'triangle',.018);
-  if(noteIndex%4===2) playNote(f*1.5,now+.12,.65,'sine',.008);
-  noteIndex++;
-}
-async function toggleMusic(){
-  try{
-    if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    if(audioCtx.state==='suspended') await audioCtx.resume();
-    musicPlaying = !musicPlaying;
-    if(musicPlaying){
-      musicStep(); musicTimer=setInterval(musicStep,720);
-      musicBtn.classList.add('playing'); musicBtn.textContent='Ⅱ'; musicBtn.setAttribute('aria-label','Выключить музыку');
-      showToast('Музыка включена');
-    }else{
-      clearInterval(musicTimer); musicBtn.classList.remove('playing'); musicBtn.textContent='♫'; musicBtn.setAttribute('aria-label','Включить музыку');
-      showToast('Музыка выключена');
-    }
-  }catch(e){showToast('Не удалось включить звук в этом браузере.');}
-}
-musicBtn.addEventListener('click',toggleMusic);
-
 </script>
 </body>
 </html>
