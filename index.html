@@ -102,14 +102,14 @@ footer{text-align:center;padding:20px 20px 50px;color:#8d7777;font: .68rem Arial
     <p class="eyebrow">Особенный вечер · 29 ноября</p>
     <h1>Екатерина<em>приглашает вас</em></h1>
     <div class="rule">✦</div>
-    <div class="envelope-wrap" id="envelopeWrap" role="button" tabindex="0" aria-label="Открыть приглашение">
+    <div class="envelope-wrap" id="envelopeWrap" role="button" tabindex="0" aria-label="Открыть приглашение" onclick="openInvitation()">
       <div class="envelope" id="envelope">
         <div class="env-back"></div>
         <div class="letter"><small>С любовью и теплом</small><strong>Вы приглашены</strong><span>на мой особенный день</span></div>
         <div class="env-flap"></div><div class="env-front"></div><div class="seal">Е</div>
       </div>
     </div>
-    <button class="open-btn" id="openBtn">Открыть приглашение</button>
+    <button class="open-btn" id="openBtn" type="button" onclick="openInvitation()">Открыть приглашение</button>
     <p class="hint">Нажмите на конверт, чтобы открыть</p>
   </div>
 </section>
@@ -195,7 +195,7 @@ document.querySelectorAll('.date-part strong')[0].textContent = INVITATION.date;
 document.querySelectorAll('.date-part strong')[1].textContent = INVITATION.time;
 document.querySelector('.detail p').innerHTML = INVITATION.address.replace(', ', ',<br>');
 
-function openInvitation(){
+window.openInvitation = function openInvitation(){
   if(opened) return;
   opened = true;
   envelope.classList.add('opened');
@@ -213,10 +213,10 @@ function openInvitation(){
       window.scrollTo({top:0,behavior:'smooth'});
     }, 820);
   }, 900);
-}
-openBtn.addEventListener('click', openInvitation);
-wrap.addEventListener('click', openInvitation);
-wrap.addEventListener('keydown', e => {if(e.key === 'Enter' || e.key === ' '){e.preventDefault();openInvitation();}});
+};
+openBtn.addEventListener('click', window.openInvitation);
+wrap.addEventListener('click', window.openInvitation);
+wrap.addEventListener('keydown', e => {if(e.key === 'Enter' || e.key === ' '){e.preventDefault();window.openInvitation();}});
 
 function showToast(text){
   toast.textContent = text; toast.style.display='block';
@@ -254,8 +254,4 @@ async function toggleMusic(){
       showToast('Музыка включена');
     }else{
       clearInterval(musicTimer); musicBtn.classList.remove('playing'); musicBtn.textContent='♫'; musicBtn.setAttribute('aria-label','Включить музыку');
-      showToast('Музыка выключена');
-    }
-  }catch(e){showToast('Не удалось включить звук в этом браузере.');}
-}
-musicBtn.addEv
+      showToas
