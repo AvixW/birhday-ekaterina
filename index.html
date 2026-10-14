@@ -278,7 +278,7 @@ function rsvp(status, buttonId){
 
   const phone = (INVITATION.rsvpPhone || '').replace(/\D/g, '');
   if(phone && phone !== '79231111306'){
-   const url = https://wa.me/${phone}?text=${encodeURIComponent(selectedRsvpMessage)}; window.location.href = url;
+   const url = sms:${phone}?body=${encodeURIComponent(selectedRsvpMessage)}; window.location.href = url;
   } else {
     showToast('Чтобы открывался WhatsApp, укажите номер Екатерины в настройках INVITATION внизу файла index.html.');
   }
