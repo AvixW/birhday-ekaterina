@@ -102,14 +102,14 @@ footer{text-align:center;padding:20px 20px 50px;color:#8d7777;font: .68rem Arial
     <p class="eyebrow">Особенный вечер · 29 ноября</p>
     <h1>Екатерина<em>приглашает вас</em></h1>
     <div class="rule">✦</div>
-    <div class="envelope-wrap" id="envelopeWrap" role="button" tabindex="0" aria-label="Открыть приглашение" onclick="openInvitation()">
+    <div class="envelope-wrap" id="envelopeWrap" role="button" tabindex="0" aria-label="Открыть приглашение">
       <div class="envelope" id="envelope">
         <div class="env-back"></div>
         <div class="letter"><small>С любовью и теплом</small><strong>Вы приглашены</strong><span>на мой особенный день</span></div>
         <div class="env-flap"></div><div class="env-front"></div><div class="seal">Е</div>
       </div>
     </div>
-    <button class="open-btn" id="openBtn" type="button" onclick="openInvitation()">Открыть приглашение</button>
+    <button class="open-btn" id="openBtn" type="button">Открыть приглашение</button>
     <p class="hint">Нажмите на конверт, чтобы открыть</p>
   </div>
 </section>
@@ -196,27 +196,42 @@ document.querySelectorAll('.date-part strong')[1].textContent = INVITATION.time;
 document.querySelector('.detail p').innerHTML = INVITATION.address.replace(', ', ',<br>');
 
 window.openInvitation = function openInvitation(){
-  if(opened) return;
+  // Надёжно открыть приглашение без таймеров и анимационных зависимостей.
+  if (opened) return;
   opened = true;
-  envelope.classList.add('opened');
-  wrap.classList.add('opened');
-  openBtn.textContent = 'Приглашение открыто';
-  openBtn.disabled = true;
-  setTimeout(() => {
-    cover.style.transition = 'opacity .8s ease, transform .8s ease';
-    cover.style.opacity = '0';
-    cover.style.transform = 'translateY(-18px)';
-    setTimeout(() => {
-      cover.style.display = 'none';
-      main.classList.add('visible');
-      musicBtn.classList.add('on');
-      window.scrollTo({top:0,behavior:'smooth'});
-    }, 820);
-  }, 900);
+  if (envelope) envelope.classList.add('opened');
+  if (wrap) wrap.classList.add('opened');
+  if (openBtn) {
+    openBtn.textContent = 'Приглашение открыто';
+    openBtn.disabled = true;
+  }
+  if (cover) cover.style.display = 'none';
+  if (main) {
+    main.style.display = 'block';
+    main.style.opacity = '1';
+    main.classList.add('visible');
+  }
+  if (musicBtn) musicBtn.classList.add('on');
+  window.scrollTo(0, 0);
 };
-openBtn.addEventListener('click', window.openInvitation);
-wrap.addEventListener('click', window.openInvitation);
-wrap.addEventListener('keydown', e => {if(e.key === 'Enter' || e.key === ' '){e.preventDefault();window.openInvitation();}});
+
+// Use one handler for both the envelope and the explicit button.
+if (openBtn) openBtn.addEventListener('click', function (event) {
+  event.preventDefault();
+  window.openInvitation();
+});
+if (wrap) {
+  wrap.addEventListener('click', function (event) {
+    event.preventDefault();
+    window.openInvitation();
+  });
+  wrap.addEventListener('keydown', function (event) {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      window.openInvitation();
+    }
+  });
+}
 
 function showToast(text){
   toast.textContent = text; toast.style.display='block';
@@ -251,7 +266,4 @@ async function toggleMusic(){
     if(musicPlaying){
       musicStep(); musicTimer=setInterval(musicStep,720);
       musicBtn.classList.add('playing'); musicBtn.textContent='Ⅱ'; musicBtn.setAttribute('aria-label','Выключить музыку');
-      showToast('Музыка включена');
-    }else{
-      clearInterval(musicTimer); musicBtn.classList.remove('playing'); musicBtn.textContent='♫'; musicBtn.setAttribute('aria-label','Включить музыку');
-      showToas
+      showToast('Музыка вк
