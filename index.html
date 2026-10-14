@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#16080d">
-<meta name="description" content="Приглашение на день рождения Екатерины — 30 ноября в 19:00">
+<meta name="description" content="Приглашение на день рождения Екатерины — 29 ноября в 16:00">
 <title>Приглашение для Екатерины · 40</title>
 <style>
 :root{
@@ -99,7 +99,7 @@ footer{text-align:center;padding:20px 20px 50px;color:#8d7777;font: .68rem Arial
 <section class="cover" id="cover" aria-label="Обложка приглашения">
   <span class="corner c1"></span><span class="corner c2"></span><span class="corner c3"></span><span class="corner c4"></span>
   <div class="cover-inner">
-    <p class="eyebrow">Особенный вечер · 30 ноября</p>
+    <p class="eyebrow">Особенный вечер · 29 ноября</p>
     <h1>Екатерина<em>приглашает вас</em></h1>
     <div class="rule">✦</div>
     <div class="envelope-wrap" id="envelopeWrap" role="button" tabindex="0" aria-label="Открыть приглашение">
@@ -123,8 +123,8 @@ footer{text-align:center;padding:20px 20px 50px;color:#8d7777;font: .68rem Arial
     <div class="kicker">новая глава · новые впечатления</div>
     <div class="ornament">✦ &nbsp; ❧ &nbsp; ✦</div>
     <div class="date-card">
-      <div class="date-part"><strong>30 ноября</strong><span>Дата встречи</span></div>
-      <div class="date-part"><strong>19:00</strong><span>Начало вечера</span></div>
+      <div class="date-part"><strong>29 ноября</strong><span>Дата встречи</span></div>
+      <div class="date-part"><strong>16:00</strong><span>Начало вечера</span></div>
     </div>
   </section>
 
@@ -133,13 +133,13 @@ footer{text-align:center;padding:20px 20px 50px;color:#8d7777;font: .68rem Arial
     <h2>Буду вас ждать</h2>
     <div class="details">
       <div class="detail"><div class="icon">✧</div><h3>Место встречи</h3><p>г. Новосибирск,<br>ул. Сестрорецкая, д. 16</p></div>
-      <div class="detail"><div class="icon">❦</div><h3>Дресс-код</h3><p>Не забудьте взять купальные вещи! Цвет и стиль — на ваш выбор.</p></div>
+      <div class="detail"><div class="icon">❦</div><h3>Дресс-код</h3><p>Девушкам — элегантный чёрный образ. Мужчинам — белый верх и чёрный низ. И пожалуйста, не забудьте купальные вещи — они пригодятся для продолжения праздника!</p></div>
     </div>
     <div class="ornament">— ✦ —</div>
     <div class="kicker">План вечера</div>
     <div class="timeline">
-      <div class="timeline-row"><time>19:00</time><span>Встречаемся и говорим первые тосты</span></div>
-      <div class="timeline-row"><time>19:30</time><span>Угощения, разговоры и красивые моменты</span></div>
+      <div class="timeline-row"><time>16:00</time><span>Встречаемся и говорим первые тосты</span></div>
+      <div class="timeline-row"><time>16:30</time><span>Угощения, разговоры и красивые моменты</span></div>
       <div class="timeline-row"><time>Дальше</time><span>Празднуем, смеёмся и создаём воспоминания</span></div>
     </div>
   </section>
@@ -149,7 +149,7 @@ footer{text-align:center;padding:20px 20px 50px;color:#8d7777;font: .68rem Arial
     <h2>Вы придёте?</h2>
     <p class="intro">Буду очень рада видеть вас на празднике. Пожалуйста, сообщите о своём решении в течение дня.</p>
     <div class="rsvp-box">
-      <p style="font-size:1.1rem;color:var(--gold2);">Ответьте пожалуйста в течении дня</p>
+      <p style="font-size:1.1rem;color:var(--gold2);">Пожалуйста, дайте знать в течение дня</p>
       <div class="ornament">✦</div>
       <p class="intro">С любовью,<br><span class="name-script">Екатерина</span></p>
     </div>
@@ -170,10 +170,10 @@ footer{text-align:center;padding:20px 20px 50px;color:#8d7777;font: .68rem Arial
 const INVITATION = {
   name: "Екатерина",
   age: 40,
-  date: "30 ноября",
-  time: "19:00",
+  date: "29 ноября",
+  time: "16:00",
   address: "г. Новосибирск, ул. Сестрорецкая, д. 16",
-  rsvpPhone: "ВСТАВЬТЕ_НОМЕР" // Номер WhatsApp Екатерины: только цифры с кодом страны, например 79990000000
+  rsvpPhone: "" // Ответы собираются лично, без кнопок WhatsApp или SMS
 };
 
 const cover = document.getElementById('cover');
@@ -258,8 +258,4 @@ async function toggleMusic(){
     }
   }catch(e){showToast('Не удалось включить звук в этом браузере.');}
 }
-musicBtn.addEventListener('click',toggleMusic);
-
-</script>
-</body>
-</html>
+musicBtn.addEv
